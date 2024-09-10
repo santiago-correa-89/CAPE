@@ -59,11 +59,11 @@ v_los_2   	= u_2*x_n_2+v_2*y_n_2+w_2*z_n_2;
 
 %% 3. Reconstruction
 % estimation of u component
-u_1_est     = v_los_1; % needs correction !!!
-u_2_est     = v_los_1; % needs correction !!!
+u_1_est     = v_los_1/x_n_1; % Divide de V_l por el vector direccional normalizada. Supongo v=w=0
+u_2_est     = v_los_2/x_n_2; % 
 
 % estimation of rotor-effective wind speed
-v_0L        = v_los_1; % needs correction !!!
+v_0L        = (u_1_est + u_2_est)/2 ;
 
 %% 4. Estimation of Spectrum from Data
 signal               	= detrend(v_0L,'constant');
@@ -103,7 +103,7 @@ kappa       = 12*((f/URef).^2+(0.12/L_1).^2).^0.5;
 gamma_uu    = exp(-kappa.*Distance); % coherence between point 1 and 2 in u
 
 %% 6. Analytic spectrum of rotor effective wind speed estimate
-S_LL        = x_n_1^2*S_uu+y_n_1^2*S_vv+z_n_1^2*S_ww; % needs correction !!! Currently, this is the analytic spectrum of v_los_1
+S_LL        = (1/4)*(2*S_uu + 2*y_n_1^2/x_n_1^2*S_vv +  2*S_uu.*gamma_uu); % Currently, this is the analytic spectrum of v_los_1
 
 %% 7. Analytic spectrum of rotor effective wind speed
 R                   = 63;
