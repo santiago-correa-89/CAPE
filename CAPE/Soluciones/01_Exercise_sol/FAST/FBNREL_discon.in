@@ -1,0 +1,30 @@
+*******************************************************************
+* Baseline controller for the NREL 5MW reference wind turbine 
+* Based on controller of Jason Jonkman 
+* By David Schlipf for Aerodynamic lecture 2019 
+* Compiled for FAST 32 bit 
+* Communication Interval fixed to: 0.0125 s!
+*******************************************************************
+Parameter.CPC.kp                               = 0.018827
+Parameter.CPC.Ti                               = 2.3333
+Parameter.CPC.theta_K                          = 0.11
+Parameter.CPC.Omega_g_rated                    = 122.9096
+Parameter.CPC.theta_max                        = 1.5708
+Parameter.CPC.theta_min                        = 0
+Parameter.VSC.k                                = 2.3323
+Parameter.VSC.theta_fine                       = 0.017453
+Parameter.VSC.Mode                             = 1
+Parameter.VSC.M_g_rated                        = 43093.5515
+Parameter.VSC.M_g_max                          = 47402.9067
+Parameter.VSC.M_g_min                          = 0
+Parameter.VSC.P_a_rated                        = 5296610.1695
+Parameter.VSC.Omega_g_1To1_5                   = 70.1622
+Parameter.VSC.Omega_g_1_5To2                   = 91.2109
+Parameter.VSC.Omega_g_2_5To3                   = 122.9096
+Parameter.VSC.a_1_5                            = 921.8305
+Parameter.VSC.b_1_5                            = -64677.6856
+Parameter.VSC.a_2_5                            = 3856.7301
+Parameter.VSC.b_2_5                            = -430935.5151
+Parameter.VSC.Omega_g_2To2_5                   = 120.5197
+Parameter.Filter.FilterGenSpeed.Omega_g.Enable = 0
+Parameter.Filter.FilterGenSpeed.T63            = 0.63662

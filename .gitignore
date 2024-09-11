@@ -16,7 +16,7 @@ docs/src/assets/generated/
 test/aux.txt
 
 # editors and OSs
-*.DS_Store
+/CAPE/*/*.DS_Store
 *.vscode
 *.asv
 octave-workspace
@@ -38,3 +38,4 @@ tesis/tesis.pdf
 */*.run.xml
 */*.bbl
 */*.blg
+/CAPE/*/*.wnd
