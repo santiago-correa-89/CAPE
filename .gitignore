@@ -38,4 +38,4 @@ tesis/tesis.pdf
 */*.run.xml
 */*.bbl
 */*.blg
-/CAPE/*/*.wnd
+/CAPE/*/*/*.wnd
