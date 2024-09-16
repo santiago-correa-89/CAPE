@@ -103,7 +103,7 @@ kappa       = 12*((f/URef).^2+(0.12/L_1).^2).^0.5;
 gamma_uu    = exp(-kappa.*Distance); % coherence between point 1 and 2 in u
 
 %% 6. Analytic spectrum of rotor effective wind speed estimate
-S_LL        = (1/4)*(2*S_uu + 2*y_n_1^2/x_n_1^2*S_vv +  2*S_uu.*gamma_uu); % Currently, this is the analytic spectrum of v_los_1
+S_LL        = (1/4)*(2*S_uu + 2*y_n_1^2/x_n_1^2*S_vv + 2*S_uu.*gamma_uu); % Currently, this is the analytic spectrum of v_los_1
 
 %% 7. Analytic spectrum of rotor effective wind speed
 R                   = 63;
@@ -144,13 +144,13 @@ for Point=1:1:nPoint                       % ... all iPoints
      end
 end
 
-S_RL                = (1/2*nPointInRotorDisc)*(S_uu.*SUM_gamma_1n + S_uu.*SUM_gamma_2n);    %  
+S_RL                = (1/2/nPointInRotorDisc)*(S_uu.*SUM_gamma_1n + S_uu.*SUM_gamma_2n);    %  
 
 %% 9. Coherence
-gamma_Sq_RL         = S_RL/sqrt(S_LL.*S_uu); % needs correction !!!
-k                   = 2*pi*f./v_0L;           % needs correction !!!
-MCB                 = NaN;          % needs correction !!!
-SDES                = NaN;          % needs correction !!!
+gamma_Sq_RL         = sqrt(abs(S_RL.^2)./(S_LL.*S_RR)); % Cross coherence
+k                   = 2*pi*f/URef;           % Wave number
+MCB                 = interp1(gamma_Sq_RL.^2, k, 0.5)  ;   % Best Coherence bandwidth
+SDES                = 1/MCB/126;                   % needs correction !!!
 
 %% 10. Plots
 % time
@@ -181,7 +181,7 @@ legend('S_{LL,est}','S_{LL}','S_{uu}','S_{RR}')
 % coherence
 figure('Name','Coherence')
 hold all; grid on; box on
-plot(k,gamma_Sq_RL)
+plot(k,gamma_Sq_RL.^2)
 plot([1e-3 1e0],[0.5 0.5])
 plot(MCB,0.5,'o')
 xlim([1e-3 1e0])

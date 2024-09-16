@@ -42,18 +42,18 @@ sim('NREL5MW_FBSWE_SLOW3DOF.mdl')
 theta_FB    = logsout.get('y').Values.theta.Data;
 Omega_FB    = logsout.get('y').Values.Omega.Data;
 M_yT_FB     = logsout.get('y').Values.M_yT.Data;
-M_yT_FB_max = max(abs(M_yT_FB));    % Maximum absolute value of the tower                                                        % needs adjustment !!!
+M_yT_FB_max = 0;    % needs correction !!!                                                         % needs adjustment !!!
 
 
 %% Brute-Force-Optimization
-T_Buffer_v  = [ 4.5:0.1:5 ] ;  % needs correction !!!                                                          % needs adjustment !!!
+T_Buffer_v  = [1];  % needs correction !!!                                                          % needs adjustment !!!
 n_T_Buffer  = length(T_Buffer_v);
 Parameter.CPC.FF.Mode               = 1;
 
 for i_T_Buffer=1:n_T_Buffer
     
     % adjust Buffer Time
-    Parameter.CPC.FF.T_buffer       = T_Buffer_v(:,i_T_Buffer);
+    Parameter.CPC.FF.T_buffer       = T_Buffer_v(i_T_Buffer);
 
     % Processing SLOW for this OP
     sim('NREL5MW_FBSWE_SLOW3DOF.mdl')
@@ -64,7 +64,7 @@ for i_T_Buffer=1:n_T_Buffer
     M_yT_FF(:,i_T_Buffer)           = logsout.get('y').Values.M_yT.Data;
     
     % calculate ultimate load
-    M_yT_FF_max(i_T_Buffer)         = 0; % needs correction !!!  Tenemos que optimizar el buffer para optimizar el DEL
+    M_yT_FF_max(i_T_Buffer)         = 0; % needs correction !!!                                 	% needs adjustment !!!
     
 end
 

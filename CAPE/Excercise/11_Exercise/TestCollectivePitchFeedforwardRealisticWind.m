@@ -16,7 +16,17 @@ Parameter                       = NREL5MWDefaultParameter_FF(Parameter);
 
 % Enable and adjust filter
 Parameter.Filter.LowPass3.Enable       	= 1;            % [0/1]
-Parameter.Filter.LowPass3.f_cutoff     	= 1;            % [Hz]   
+Parameter.Filter.LowPass3.f_cutoff     	= 0.07*20/2/pi; % [Hz]   
+LP = tf([Parameter.Filter.LowPass3.f_cutoff*2*pi],[1, Parameter.Filter.LowPass3.f_cutoff*2*pi]);
+
+[amp, phase, wout ] = bode(LP);
+
+phase       = reshape(phase, [56, 1]);
+delay_phase = interp1(wout, phase, 0.1*2*pi);
+
+filter_delay   = delay_phase/360*1/0.1;
+
+t_buffer  = 63/20 + filter_delay - 0.3; % 0.3 delay del actuador por letra.
 
 % Time
 dt                              = 1/80;
@@ -50,10 +60,10 @@ Omega_FB_std= std(Omega_FB);
 c          	= rainflow(M_yT_FB);
 Count    	= c(:,1);
 Range     	= c(:,2);
-DEL_MyT_FB  = 0;% needs correction !!!
+DEL_MyT_FB  = (sum(Range.^(WoehlerExponent).*Count)/N_REF).^(1/WoehlerExponent);% needs correction !!!
                                             
 %% Brute-Force-Optimization
-T_Buffer_v  = 0;% needs correction !!!                                       	% needs adjustment !!!
+T_Buffer_v  = [2:0.2:4];% needs correction !!!                                       	% needs adjustment !!!
 n_T_Buffer  = length(T_Buffer_v);
 Parameter.CPC.FF.Mode               = 1;
 
@@ -74,7 +84,7 @@ for i_T_Buffer=1:n_T_Buffer
     c                               = rainflow(M_yT_FF(:,i_T_Buffer));
     Count                           = c(:,1);
     Range                           = c(:,2);
-    DEL_MyT_FF(i_T_Buffer)          = 0; % needs correction !!!
+    DEL_MyT_FF(i_T_Buffer)          = (sum(Range.^(WoehlerExponent).*Count)/N_REF).^(1/WoehlerExponent); % needs correction !!!
 end
 
 %% PostProcessing SLOW
